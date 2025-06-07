@@ -1,9 +1,9 @@
 # nostrae
-# 🎭 Plateforme de Réservation d'Événements Culturels
+# Plateforme de Réservation d'Événements Culturels
 
 Bienvenue sur le dépôt du projet de plateforme web de gestion et réservation d'événements culturels, développé dans le cadre du module NFE114.
 
-## 🚀 Objectif
+## Objectif
 
 Cette application Symfony permet :
 - aux visiteurs de consulter les événements culturels,
@@ -13,7 +13,7 @@ Cette application Symfony permet :
 
 ---
 
-## 🛠️ Technologies utilisées
+## Technologies utilisées
 
 - **Backend** : PHP 8.x avec Symfony
 - **Base de données** : MySQL
@@ -24,7 +24,7 @@ Cette application Symfony permet :
 
 ---
 
-## ⚙️ Prérequis
+## Prérequis
 
 Avant d’installer le projet, assurez-vous d’avoir :
 
@@ -37,7 +37,7 @@ Avant d’installer le projet, assurez-vous d’avoir :
 
 ---
 
-## 🔧 Installation
+## Installation
 
 ```bash
 git clone https://github.com/votre-utilisateur/nom-du-repo.git
