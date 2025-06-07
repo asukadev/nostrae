@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord admin{% endblock %}
+
+{% block body %}
+{% set menu = "dashboard" %}
+
+{{ include('components/_admin_menu.html.twig') }}
+
+<div class="row align-items-md-stretch mb-3">
+	<div class="col-md-6">
+		<div class="h-100 p-5 rounded-3 bg-body-tertiary border">
+            <canvas id="eventTypeChart"
+                data-labels='{{ eventTypeLabels|json_encode|e("html_attr") }}'
+                data-values='{{ eventTypeData|json_encode|e("html_attr") }}'>
+            </canvas>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="h-100 p-5 bg-body-tertiary border rounded-3">
+            <canvas id="fillingRateChart" data-value='{{ averageFillingRate }}'></canvas>
+		</div>
+	</div>
+</div>
+
+<div class="row align-items-md-stretch mb-3">
+	<div class="col-md-6">
+		<div class="h-100 p-5 rounded-3 bg-body-tertiary border">
+            <canvas id="bookingCountChart"
+                data-labels='{{ bookingLabels|json_encode|e("html_attr") }}'
+                data-values='{{ bookingData|json_encode|e("html_attr") }}'>
+            </canvas>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="h-100 p-5 bg-body-tertiary border rounded-3">
+            <canvas id="topCitiesChart"
+                data-labels='{{ topCityLabels|json_encode|e("html_attr") }}'
+                data-values='{{ topCityData|json_encode|e("html_attr") }}'>
+            </canvas>
+		</div>
+	</div>
+</div>
+
+<div class="row align-items-md-stretch">
+	<div class="col-md-6">
+		<div class="h-100 p-5 rounded-3 bg-body-tertiary border">
+            <canvas id="eventTimelineChart"
+                data-labels='{{ eventTimelineLabels|json_encode|e("html_attr") }}'
+                data-dates='{{ eventTimelineDates|json_encode|e("html_attr") }}'>
+            </canvas>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

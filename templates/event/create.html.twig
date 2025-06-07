@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un événement{% endblock %}
+{% block page_title %}Créer un événement{% endblock %}
+
+{% block body %}
+
+    {{ form_start(eventForm) }}
+        {{ form_row(eventForm.title) }}
+        <div class="card card border-0 bg-white p-4 p-lg-5 rounded-4 shadow-sm mb-5">
+            {{ form_row(eventForm.description, {'attr': {'class': 'border-0 bg-light'}}) }}
+            {{ form_row(eventForm.startAt, {'attr': {'class': 'border-0 bg-light'}}) }}
+            {{ form_row(eventForm.location, {'attr': {'class': 'border-0 bg-light'}}) }}
+            {{ form_row(eventForm.imageFile, {'attr': {'class': 'border-0 bg-light'}}) }}
+            {{ form_row(eventForm.capacity, {'attr': {'class': 'border-0 bg-light'}}) }}
+            {{ form_row(eventForm.type, {'attr': {'class': 'border-0 bg-light'}}) }}
+        </div>
+        <button class="btn btn-primary">Créer</button>
+    {{ form_end(eventForm) }}
+
+{% endblock %}

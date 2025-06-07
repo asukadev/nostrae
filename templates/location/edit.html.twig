@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le lieu{% endblock %}
+
+{% block body %}
+    <h1>Modifier le lieu : {{ location.name }}</h1>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+
+    {{ form_start(locationForm) }}
+        {{ form_row(locationForm.name) }}
+        {{ form_row(locationForm.address) }}
+        {{ form_row(locationForm.city) }}
+        {{ form_row(locationForm.postalCode) }}
+        <button class="btn btn-primary">Mettre à jour</button>
+    {{ form_end(locationForm) }}
+{% endblock %}

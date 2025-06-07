@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+{% set menu = "locations" %}
+
+{{ include('components/_admin_menu.html.twig') }}
+
+<h2 class="h2 d-inline-flex align-items-center">{{ title }} <a href="{{ path('admin_locations') }}" class="btn btn-outline-secondary ms-3">Retour</a></h2>
+
+{{ form_start(locationForm) }}
+    {{ form_widget(locationForm) }}
+    <button class="btn btn-primary mt-3">Sauvegarder</button>
+{{ form_end(locationForm) }}
+
+{% endblock %}

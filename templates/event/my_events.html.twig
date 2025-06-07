@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes événements{% endblock %}
+{% block page_title %}Mes événements{% endblock %}
+
+{% block body %}
+
+    {% if events is empty %}
+        <p>Aucun événement créé pour le moment.</p>
+    {% else %}
+        {% for event in events %}
+            <div class="row g-0 rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative bg-white p-4 p-lg-5 rounded-4 shadow-sm">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <h3 class="mb-3">{{ event.title }}
+                        {% if event.startAt > "now"|date('Y-m-d H:i:s') or is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('event_edit', {'id': event.id}) }}" class="btn btn-outline-secondary"><i class="ph ph-pencil-simple-line"></i></a>
+
+                            <form method="post"
+                                action="{{ path('event_delete', {'id': event.id}) }}"
+                                style="display:inline;" onsubmit="return confirm('Supprimer cet événement ?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete_event_' ~ event.id) }}">
+                                <button class="btn btn-outline-danger"><i class="ph ph-trash"></i></button>
+                            </form>
+                        {% else %}
+                            <span class="badge bg-secondary"><i class="ph ph-lock"></i> Verrouillé</span>
+                        {% endif %}
+                    </h3>
+                    <p class="text-muted mb-1 d-flex align-items-center gap-2">
+                        <i class="ph ph-map-pin-area"></i> {{ event.location.name }}, {{ event.location.city }}
+                    </p>
+                    <p class="text-muted mb-1 d-flex align-items-center gap-2">
+                        <i class="ph ph-calendar-dots"></i> {{ event.startAt|date('d/m/Y H:i') }} – <i class="ph ph-tag"></i> {{ event.type.name }}
+                    </p>
+                    <p class="text-muted mb-3 d-flex align-items-center gap-2">
+                        Places restantes : {{ event.getRemainingSeats() }}/{{ event.capacity }}
+                    </p>
+                    <p class="card-text mb-auto">{{ event.description }}</p>
+                    <div class="mt-3">
+                        <a href="{{ path('event_show', {slug: event.slug}) }}" class="btn btn-dark btn-sm me-2 gap-2">
+                            Voir l'événement
+                        </a>
+                        <a href="{{ path('event_participants', {slug: event.slug}) }}" class="btn btn-primary btn-sm me-2 gap-2">
+                            Voir les participants
+                        </a>
+                    </div>
+                </div>
+                <div class="col-auto d-none d-lg-block">
+                    {{ include('components/_event_image.html.twig', { event: event }) }}
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

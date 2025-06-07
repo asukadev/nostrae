@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier Événement{% endblock %}
+
+{% block body %}
+{% set menu = "events" %}
+
+{{ include('components/_admin_menu.html.twig') }}
+
+<h2 class="h2 d-inline-flex align-items-center">{{ event.title }} <a href="{{ path('admin_events') }}" class="btn btn-outline-secondary ms-3">Retour</a></h2>
+
+{{ form_start(eventForm) }}
+    {{ form_widget(eventForm) }}
+    <button class="btn btn-primary mt-3">Sauvegarder</button>
+{{ form_end(eventForm) }}
+
+{% endblock %}

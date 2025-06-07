@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Demandes d'Organisateur{% endblock %}
+
+{% block body %}
+{% set menu = "organizer_requests" %}
+
+{{ include('components/_admin_menu.html.twig') }}
+
+<h2 class="h2 mb-0">Demandes pour devenir Organisateur</h2>
+
+<table class="table table-hover mt-4 table-transparent">
+    <thead>
+        <tr>
+            <th>Utilisateur</th>
+            <th>Motivation</th>
+            <th>Date de demande</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for request in requests %}
+        <tr>
+            <td>{{ request.user.username }}</td>
+            <td>{{ request.motivation }}</td>
+            <td>{{ request.requestedAt|date('d/m/Y H:i') }}</td>
+            <td class="d-flex gap-2">
+                <form method="post" action="{{ path('admin_accept_organizer', {id: request.id}) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('accept_organizer_' ~ request.id) }}">
+                    <button class="btn btn-sm btn-success d-inline-flex align-items-center gap-2"><i class="ph ph-check-circle"></i> Accepter</button>
+                </form>
+
+                <form method="post" action="{{ path('admin_refuse_organizer', {id: request.id}) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('refuse_organizer_' ~ request.id) }}">
+                    <button class="btn btn-sm btn-danger d-inline-flex align-items-center gap-2"><i class="ph ph-x-circle"></i> Refuser</button>
+                </form>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="4" class="text-center">Aucune demande en attente.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ event.title }}{% endblock %}
+{% block page_title %}{{ event.title }}{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-9">
+        <div class="card card border-0 bg-white p-4 p-lg-5 rounded-4 shadow-sm mb-5">
+            {{ include('components/_event_image.html.twig', { event: event }) }}
+
+            <div class="card-body">
+                <h1 class="card-title">{{ event.title }}</h1>
+
+                <p class="text-muted mb-1 d-flex align-items-center gap-2">
+                    <i class="ph ph-map-pin-area"></i> {{ event.location.name }}, {{ event.location.city }}
+                </p>
+                <p class="text-muted mb-3 d-flex align-items-center gap-2">
+                    <i class="ph ph-calendar-dots"></i> {{ event.startAt|date('d/m/Y H:i') }} – <i class="ph ph-tag"></i> {{ event.type.name }}
+                </p>
+
+                <div class="mt-3">
+                    <h5>Description :</h5>
+                    <p>{{ event.description|nl2br }}</p>
+                </div>
+
+                {% if is_granted('ROLE_USER') %}
+                    {% if event.getRemainingSeats() > 0 and event.startAt > "now"|date('Y-m-d H:i:s') %}
+                        <a href="{{ path('event_book', {id: event.id}) }}" class="btn btn-primary d-inline-flex align-items-center gap-2">
+                            <i class="ph ph-ticket"></i> Réserver
+                        </a>
+                    {% else %}
+                        <div class="alert alert-warning mt-4">
+                            Plus de réservation possible pour cet événement.
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="alert alert-info mt-4">
+                        <a href="{{ path('app_login') }}" class="btn btn-outline-primary">Connectez-vous</a> pour réserver votre place !
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="card mb-4 border-0">
+            <div class="card-body text-center">
+                {{ include('components/_profile_image.html.twig', { user: event.createdBy }) }}
+                <h5 class="my-3">{{ event.createdBy.username }}</h5>
+                <p class="text-muted mb-4">Nombre d'évènements : {{ event.createdBy.events|length }}</p>
+                <div class="d-flex justify-content-center mb-2">
+                    <a href="{{ path("profile_show", {"username": event.createdBy.username }) }}" data-mdb-button-init="" data-mdb-ripple-init="" class="btn btn-primary" data-mdb-button-initialized="true">Profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

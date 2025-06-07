@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+
+<div class="d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+    <div class="bg-white p-4 p-lg-5 rounded-4 shadow-sm" style="width: 100%;">
+        <h1 class="h3 mb-4 text-center fw-bold">Connexion</h1>
+        {{ form_start(registrationForm) }}
+            <div class="row gx-5">
+                <div class="col-lg-6 col-sm-12 border-end border-light">
+                    {{ form_row(registrationForm.username, {'attr': {'class': 'border-0 bg-light'}}) }}
+                    {{ form_row(registrationForm.email, {'attr': {'class': 'border-0 bg-light'}}) }}
+                    {{ form_row(registrationForm.plainPassword, {'attr': {'class': 'border-0 bg-light'}}) }}
+                    {{ form_row(registrationForm.profileImageFile, {'attr': {'class': 'border-0 bg-light'}}) }}
+                </div>
+                <div class="col-lg-6 col-sm-12">
+                    {{ form_row(registrationForm.becomeOrganizer) }}
+                    {{ form_row(registrationForm.motivation, {'attr': {'class': 'border-0 bg-light'}}) }}
+                </div>
+            </div>
+            <p class="text-end">
+                <button type="submit" class="btn btn-primary">Créer le compte</button>
+            </p>
+        {{ form_end(registrationForm) }}
+
+        <p class="mb-0 mt-2 p-0"><small>Déjà un compte ? <a href="{{ path('app_login') }}" class="text-primary">Connectez-vous</a></small></p>
+    </div>
+</div>
+
+{% endblock %}

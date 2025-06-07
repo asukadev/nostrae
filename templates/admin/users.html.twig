@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Utilisateurs{% endblock %}
+
+{% block body %}
+{% set menu = "users" %}
+
+{{ include('components/_admin_menu.html.twig') }}
+
+<h2 class="h2 mb-0">Gestion des Utilisateurs</h2>
+
+<table class="table table-hover mt-4 table-transparent">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom d'utilisateur</th>
+            <th>Email</th>
+            <th>Rôles</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for user in pagination %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+                {% for role in user.roles %}
+                    <span class="badge bg-info text-dark">{{ role }}</span>
+                {% endfor %}
+            </td>
+            <td class="d-flex gap-2">
+                <a href="{{ path('admin_edit_user', {id: user.id}) }}" class="btn btn-sm btn-primary d-inline-flex align-items-center gap-2">
+                    <i class="ph ph-pencil-simple-line"></i> Modifier
+                </a>
+
+                <form method="post" action="{{ path('admin_delete_user', {id: user.id}) }}" onsubmit="return confirm('Êtes-vous sûr ?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete_user_' ~ user.id) }}">
+                    <button class="btn btn-sm btn-danger d-inline-flex align-items-center gap-2"><i class="ph ph-trash"></i> Supprimer</button>
+                </form>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="5" class="text-center">Aucun utilisateur trouvé.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="d-flex justify-content-center mt-4">
+    {{ knp_pagination_render(pagination) }}
+</div>
+{% endblock %}

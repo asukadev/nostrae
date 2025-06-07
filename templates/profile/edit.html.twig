@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon profil{% endblock %}
+{% block page_title %}Mon profil{% endblock %}
+
+{% block body %}
+    {{ form_start(profileForm) }}
+            <div class="card border-0 bg-white p-4 p-lg-5 rounded-4 shadow-sm mb-5">
+                {{ form_row(profileForm.username, {'attr': {'class': 'border-0 bg-light'}}) }}
+                {{ form_row(profileForm.email, {'attr': {'class': 'border-0 bg-light'}}) }}
+                {{ form_row(profileForm.profileImageFile, {'attr': {'class': 'border-0 bg-light'}}) }}
+            </div>
+            <button class="btn btn-primary">Sauvegarder</button>
+    {{ form_end(profileForm) }}
+
+{% endblock %}

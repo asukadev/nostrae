@@ -1,0 +1,39 @@
+// assets/styles/theme.scss
+
+// 1. Functions and variables
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+
+// 2. Override colors
+$primary: #7da0ca;
+$secondary: #f0e5d8;
+$success: #9cd3b3;
+$info: #a0e7e5;
+$warning: #ffdd94;
+$danger: #e74c3c;
+$light: #f9fafb;
+$dark: #2c3e50;
+
+$body-bg: $light;
+$body-color: #333;
+
+// 3. Import only necessary Bootstrap parts manually
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/type";
+@import "bootstrap/scss/images";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/helpers";
+@import "bootstrap/scss/buttons";
+@import "bootstrap/scss/forms";
+@import "bootstrap/scss/nav";
+@import "bootstrap/scss/navbar";
+@import "bootstrap/scss/card";
+@import "bootstrap/scss/badge";
+@import "bootstrap/scss/progress";
+@import "bootstrap/scss/utilities";
+
+// + ajoute les autres composants que tu veux...

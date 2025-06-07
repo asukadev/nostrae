@@ -1,0 +1,12 @@
+{# templates/components/_event_image.html.twig #}
+{% set imagePath = event.image 
+    ? asset('uploads/events/' ~ event.image) 
+    : asset('images/event-placeholder.svg') 
+%}
+
+<img 
+    src="{{ imagePath }}" 
+    alt="{{ event.title|e }}" 
+    class="img-fluid rounded {{ event.image ? "shadow-sm" : ""}}"
+    style="object-fit: cover; width: 100%; height: auto;"
+>

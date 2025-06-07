@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Types d'Événements{% endblock %}
+
+{% block body %}
+{% set menu = "event_types" %}
+
+{{ include('components/_admin_menu.html.twig') }}
+
+<h2 class="h2 mb-0 d-flex align-items-center">Gestion des Types d'Événements <a href="{{ path('admin_create_event_type') }}" class="btn btn-success ms-3 d-inline-flex align-items-center gap-2"><i class="ph ph-plus"></i> Nouveau Type</a></h2>
+
+<table class="table table-hover mt-4 table-transparent">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for eventType in pagination %}
+        <tr>
+            <td>{{ eventType.name }}</td>
+            <td class="d-flex gap-2">
+                <a href="{{ path('admin_edit_event_type', {id: eventType.id}) }}" class="btn btn-sm btn-primary d-inline-flex align-items-center gap-2">
+                    <i class="ph ph-pencil-simple-line"></i> Modifier
+                </a>
+                <form method="post" action="{{ path('admin_delete_event_type', {id: eventType.id}) }}" onsubmit="return confirm('Confirmer la suppression ?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete_event_type_' ~ eventType.id) }}">
+                    <button class="btn btn-sm btn-danger d-inline-flex align-items-center gap-2"><i class="ph ph-trash"></i> Supprimer</button>
+                </form>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="2" class="text-center">Aucun type d'événement trouvé.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="d-flex justify-content-center mt-4">
+    {{ knp_pagination_render(pagination) }}
+</div>
+{% endblock %}

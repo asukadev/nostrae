@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des lieux{% endblock %}
+
+{% block body %}
+    <h1>Liste des lieux</h1>
+
+    {% if locations is empty %}
+        <p>Aucun lieu enregistré pour le moment.</p>
+    {% else %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Adresse</th>
+                    <th>Ville</th>
+                    <th>Code postal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for location in locations %}
+                    <tr>
+                        <td>{{ location.name }}</td>
+                        <td>{{ location.address }}</td>
+                        <td>{{ location.city }}</td>
+                        <td>{{ location.postalCode }}</td>
+                        {% if is_granted('ROLE_ORGANIZER') %}
+                            <td>
+                                <a href="{{ path('location_edit', {'id': location.id}) }}" class="btn btn-sm btn-outline-primary">✏️</a>
+
+                                <form method="post" action="{{ path('location_delete', {'id': location.id}) }}" style="display:inline;" onsubmit="return confirm('Supprimer ce lieu ?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete_location_' ~ location.id) }}">
+                                    <button class="btn btn-sm btn-outline-danger">🗑️</button>
+                                </form>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

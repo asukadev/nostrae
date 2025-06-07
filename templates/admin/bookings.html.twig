@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Réservations{% endblock %}
+
+{% block body %}
+{% set menu = "bookings" %}
+
+{{ include('components/_admin_menu.html.twig') }}
+
+<h2 class="h2 mb-0">Gestion des Réservations</h2>
+
+<table class="table table-hover mt-4">
+    <thead>
+        <tr>
+            <th>Utilisateur</th>
+            <th>Événement</th>
+            <th>Quantité</th>
+            <th>Réservé le</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for booking in pagination %}
+        <tr>
+            <td>{{ booking.user.username }}</td>
+            <td>
+                <a href="{{ path('event_show', {slug: booking.event.slug}) }}">
+                    {{ booking.event.title }}
+                </a>
+            </td>
+            <td>{{ booking.quantity }}</td>
+            <td>{{ booking.reservedAt|date('d/m/Y H:i') }}</td>
+            <td class="d-flex gap-2">
+                <form method="post" action="{{ path('admin_delete_booking', {id: booking.id}) }}" onsubmit="return confirm('Confirmer la suppression ?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete_booking_' ~ booking.id) }}">
+                    <button class="btn btn-sm btn-danger">🗑️ Supprimer</button>
+                </form>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="5" class="text-center">Aucune réservation trouvée.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="d-flex justify-content-center mt-4">
+    {{ knp_pagination_render(pagination) }}
+</div>
+{% endblock %}

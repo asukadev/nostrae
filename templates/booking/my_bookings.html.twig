@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes réservations{% endblock %}
+{% block page_title %}Mes réservations{% endblock %}
+
+{% block body %}
+
+    {% for msg in app.flashes('success') %}
+        <div class="alert alert-success">{{ msg }}</div>
+    {% endfor %}
+
+    {% if bookings is empty %}
+        <p>Aucune réservation en cours.</p>
+    {% else %}
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Événement</th>
+                    <th>Date</th>
+                    <th>Lieu</th>
+                    <th>Places</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                    <tr>
+                        <td><a class="btn btn-link" href="{{ path("event_show", {"slug": booking.event.slug}) }}">{{ booking.event.title }}</a></td>
+                        <td>{{ booking.event.startAt|date('d/m/Y H:i') }}</td>
+                        <td>{{ booking.event.location.name }}</td>
+                        <td>{{ booking.quantity }}</td>
+                        <td>
+                            <form method="post"
+                                  action="{{ path('booking_cancel', {'id': booking.id}) }}"
+                                  onsubmit="return confirm('Annuler cette réservation ?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('cancel_booking_' ~ booking.id) }}">
+                                <button class="btn btn-sm btn-primary"> <i class="ph ph-printer"></i></button>
+                                <button class="btn btn-sm btn-danger"> Annuler</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

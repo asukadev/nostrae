@@ -1,0 +1,18 @@
+{# templates/components/_event.html.twig #}
+
+<div class="event-feature my-5 d-flex flex-column {{ reverse ? 'flex-lg-row-reverse' : 'flex-lg-row' }} align-items-center gap-4">
+    <div class="event-image flex-shrink-0 text-center">
+        {{ include('components/_event_image.html.twig', { event: event }) }}
+    </div>
+    <div class="event-text">
+        <h2 class="event-title mb-3">
+            <strong>{{ event.title|upper }}</strong><br>
+            <em class="text-muted small">📍 {{ event.location.name }} – {{ event.location.city }}</em>
+        </h2>
+        <p class="lead">{{ event.description|slice(0, 250) ~ '...' }}</p>
+        <p class="text-muted">📅 {{ event.startAt|date('d/m/Y H:i') }} – {{ event.type.name }}</p>
+        <a href="{{ path('event_show', {slug: event.slug}) }}" class="btn btn-primary mt-2">
+            Voir l'événement →
+        </a>
+    </div>
+</div>

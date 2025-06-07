@@ -1,0 +1,12 @@
+{# templates/components/_profile_image.html.twig #}
+{% set imagePath = user.profileImage 
+    ? asset('uploads/profiles/' ~ user.profileImage) 
+    : asset('images/profile-placeholder.svg') 
+%}
+
+<img 
+    src="{{ imagePath }}" 
+    alt="{{ user.username|e }}" 
+    class="img-fluid rounded {{ user.profileImage ? "shadow-sm" : ""}}"
+    style="object-fit: cover; width: 100%; height: auto;"
+>

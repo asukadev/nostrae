@@ -1,17 +1,143 @@
+{# templates/base.html.twig #}
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Nostrae | Plateforme Culturelle{% endblock %}</title>
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+    {# Google Fonts #}
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    {# Styles #}
+    <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css"
+    />
+
+    {% block stylesheets %}{{ encore_entry_link_tags('app') }}{% endblock %}
+            
+</head>
+
+<div id="wrapper" class="d-flex">
+
+    {# Sidebar #}
+    <nav id="sidebar" class="bg-dark text-light d-flex flex-column">
+        <div class="sidebar-header text-center gap-2 py-4 mb-4 d-flex align-items-center justify-content-center">
+            <a href="{{ path('homepage') }}"><h2>Nostrae</h2></a>
+            <button class="btn btn-dark border-light rounded small py-2 px-3 align-items-center gap-2" id="menu-toggle-2">
+                <i class="ph ph-list"></i>
+            </button>
+        </div>
+
+        <ul class="list-unstyled px-3 flex-grow-1">
+            <li class="mb-2">
+                <a href="{{ path('homepage') }}" class="nav-link text-light rounded small py-2 px-3 d-flex align-items-center gap-2">
+                    Accueil
+                </a>
+            </li>
+            <li class="mb-2">
+                <a href="{{ path('event_list') }}" class="nav-link text-light rounded small py-2 px-3 d-flex align-items-center gap-2">
+                    Événements
+                </a>
+            </li>
+            {% if is_granted('ROLE_ADMIN') %}
+            <li class="mb-2">
+                <a href="{{ path("admin_dashboard") }}" class="nav-link text-light rounded small py-2 px-3 d-flex align-items-center gap-2">
+                    Admin
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+
+        <div class="p-3 small text-center text-muted">
+            &copy; {{ "now"|date("Y") }} Nostrae
+        </div>
+    </nav>
+
+    {# Page Content Wrapper #}
+<div id="page-content-wrapper" class="flex-grow-1 d-flex flex-column">
+
+        {# Header fixé en haut #}
+        <header class="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-4" style="position: sticky; top: 0; z-index: 1030;">
+            <div class="container">
+                <button class="btn btn-light rounded small py-2 px-3 d-flex align-items-center gap-2" id="menu-toggle">
+                    <i class="ph ph-list"></i>
+                </button>
+                <div class="ms-auto">
+                    <ul class="navbar-nav me-auto mb-0 d-flex align-items-center flex-row">
+                        {% if app.user and app.user.roles|length == 1 %}
+                            <a href="{{ path("request_organizer") }}" class="btn btn-secondary rounded-circle d-flex align-items-center mx-1 justify-content-center p-2" style="width: 30px; height: 30px;">
+                                <i class="ph ph-crown" style="font-size: 1rem;"></i>
+                            </a>
+                        {% endif %}
+                         {% if is_granted('ROLE_ORGANIZER') %}
+                            <a href="{{ path("event_create") }}" class="btn btn-secondary rounded-circle d-flex align-items-center mx-1 justify-content-center p-2" style="width: 30px; height: 30px;">
+                                <i class="ph ph-calendar-plus" style="font-size: 1rem;"></i>
+                            </a>
+                            <a href="{{ path("my_events") }}" class="btn btn-secondary rounded-circle d-flex align-items-center mx-1 justify-content-center p-2" style="width: 30px; height: 30px;">
+                                <i class="ph ph-calendar-dots" style="font-size: 1rem;"></i>
+                            </a>
+                        {% endif %}
+                         {% if is_granted('ROLE_USER') %}
+                            <a href="{{ path("my_bookings") }}" class="btn btn-secondary rounded-circle d-flex align-items-center mx-1 justify-content-center p-2" style="width: 30px; height: 30px;">
+                                <i class="ph ph-ticket" style="font-size: 1rem;"></i>
+                            </a>
+                            <a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Mon profil" href="{{ path("profile_edit") }}" class="btn btn-secondary rounded-circle d-flex align-items-center mx-1 justify-content-center p-2" style="width: 30px; height: 30px;">
+                                <i class="ph ph-user" style="font-size: 1rem;"></i>
+                            </a>
+                        {% endif %}
+                        {% if app.user %}
+                            <a class="btn btn-light rounded small py-2 px-3 d-flex align-items-center gap-2 ms-3" href="{{ path('app_logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                Déconnexion
+                            </a>
+
+                            <form id="logout-form" action="{{ path('app_logout') }}" method="POST" style="display: none;">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('logout') }}">
+                            </form>
+                        {% else %}
+                            <a class="btn btn-light rounded small py-2 px-3 d-flex align-items-center gap-2 ms-3" href="{{ path('app_login') }}">
+                                Connexion 
+                            </a>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        {# Sous-header (non fixé) : partie naturelle de la page #}
+            {% if block('page_title') is defined %}
+                {% set _block_title = block('page_title') %}
+                <div class="container py-5">
+                        <h2 class="h2 mb-0">{{ _block_title|raw }}</h2>
+                </div>
+            {% endif %}
+            {% block breadcrumbs %}{% endblock %}
+
+        {# Main content #}
+        <main class="container py-5">
+
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% endfor %}
+
+            {% for message in app.flashes('danger') %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endfor %}
+
+            {% for message in app.flashes('info') %}
+                <div class="alert alert-info">{{ message }}</div>
+            {% endfor %}
+
+            {% block body %}{% endblock %}
+        </main>
+
+    </div>
+</div>
+
+{% block javascripts %}{{ encore_entry_script_tags('app') }}{% endblock %}
+</body>
 </html>

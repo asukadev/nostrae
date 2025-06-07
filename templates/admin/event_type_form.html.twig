@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+{% set menu = "event_types" %}
+<h2 class="h2 d-inline-flex align-items-center">{{ title }} <a href="{{ path('admin_event_types') }}" class="btn btn-outline-secondary ms-3">Retour</a></h2>
+
+{{ form_start(eventTypeTypeForm) }}
+    {{ form_widget(eventTypeTypeForm) }}
+    <button class="btn btn-primary mt-3">Sauvegarder</button>
+{{ form_end(eventTypeTypeForm) }}
+
+{% endblock %}

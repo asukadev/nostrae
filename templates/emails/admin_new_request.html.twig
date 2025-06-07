@@ -1,0 +1,12 @@
+<h2>Nouvelle demande de rôle organisateur</h2>
+
+<p>Bonjour,</p>
+
+<p>L'utilisateur <strong>{{ user.username }}</strong> ({{ user.email }}) a soumis une demande pour devenir organisateur.</p>
+
+<p><strong>Motivation :</strong></p>
+<blockquote>{{ motivation|nl2br }}</blockquote>
+
+<p>Vous pouvez traiter cette demande dans votre <a href="{{ url('admin_organizer_requests') }}">interface d'administration</a>.</p>
+
+<p>Cordialement,<br>L'équipe de la plateforme.</p>

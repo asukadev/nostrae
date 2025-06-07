@@ -1,0 +1,8 @@
+<h2>Réservation confirmée 🎉</h2>
+<p>Bonjour {{ user.username }},</p>
+<p>Vous avez réservé {{ booking.quantity }} place(s) pour :</p>
+<ul>
+    <li><strong>{{ event.title }}</strong></li>
+    <li>{{ event.location.name }}, {{ event.location.city }}</li>
+    <li>{{ event.startAt|date('d/m/Y H:i') }}</li>
+</ul>

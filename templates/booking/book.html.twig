@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réserver une place{% endblock %}
+
+{% block body %}
+    <h1>Réserver pour : {{ event.title }}</h1>
+
+    {% for msg in app.flashes('success') %}
+        <div class="alert alert-success">{{ msg }}</div>
+    {% endfor %}
+
+    {{ form_start(form) }}
+        {{ form_row(form.quantity) }}
+        <button class="btn btn-success">Valider la réservation</button>
+    {{ form_end(form) }}
+{% endblock %}

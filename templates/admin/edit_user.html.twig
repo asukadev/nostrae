@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier Utilisateur{% endblock %}
+
+{% block body %}
+{% set menu = "users" %}
+
+{{ include('components/_admin_menu.html.twig') }}
+
+<h2 class="h2 d-inline-flex align-items-center">{{ user.username }} <a href="{{ path('admin_users') }}" class="btn btn-outline-secondary ms-3">Retour</a></h2>
+
+{{ form_start(form) }}
+    {{ form_row(form.username) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.roles) }}
+    <button class="btn btn-primary mt-3">Sauvegarder</button>
+{{ form_end(form) }}
+
+
+{% endblock %}

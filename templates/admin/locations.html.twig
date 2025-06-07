@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Lieux{% endblock %}
+
+{% block body %}
+{% set menu = "locations" %}
+
+{{ include('components/_admin_menu.html.twig') }}
+
+<h2 class="h2 mb-0 d-flex align-items-center">Gestion des Lieux <a href="{{ path('admin_create_location') }}" class="btn btn-success ms-3 d-inline-flex align-items-center gap-2"><i class="ph ph-plus"></i> Nouveau Lieu</a></h2>
+
+<table class="table table-hover mt-4 table-transparent">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Adresse</th>
+            <th>Ville</th>
+            <th>Code postal</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for location in pagination %}
+        <tr>
+            <td>{{ location.name }}</td>
+            <td>{{ location.address }}</td>
+            <td>{{ location.city }}</td>
+            <td>{{ location.postalCode }}</td>
+            <td class="d-flex gap-2">
+                <a href="{{ path('admin_edit_location', {id: location.id}) }}" class="btn btn-sm btn-primary d-inline-flex align-items-center gap-2">
+                    <i class="ph ph-pencil-simple-line"></i> Modifier
+                </a>
+                <form method="post" action="{{ path('admin_delete_location', {id: location.id}) }}" onsubmit="return confirm('Confirmer la suppression ?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete_location_' ~ location.id) }}">
+                    <button class="btn btn-sm btn-danger d-inline-flex align-items-center gap-2"><i class="ph ph-trash"></i> Supprimer</button>
+                </form>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="5" class="text-center">Aucun lieu trouvé.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="d-flex justify-content-center mt-4">
+    {{ knp_pagination_render(pagination) }}
+</div>
+{% endblock %}
