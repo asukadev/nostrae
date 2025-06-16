@@ -82,9 +82,13 @@ php bin/console doctrine:fixtures:load
 
 ## Démarrage du serveur
 
+```bash
 symfony server:start
+```
 ou
+```bash
 php -S localhost:8000 -t public
+```
 
 ## Commandes utiles
 
