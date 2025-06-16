@@ -95,10 +95,14 @@ php -S localhost:8000 -t public
 ```bash
 # Voir les routes
 php bin/console debug:router
+```
 
+```bash
 # Lister les services
 php bin/console debug:container
+```
 
+```bash
 # Vider le cache
 php bin/console cache:clear
 ```
