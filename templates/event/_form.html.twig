@@ -1,0 +1,36 @@
+<div class="mb-3">
+    {{ form_row(form.location) }}
+    <button type="button" class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#locationModal">
+        Ajouter un nouveau lieu
+    </button>
+</div>
+
+{# Modale Bootstrap #}
+<div class="modal fade" id="locationModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form id="locationForm" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Nouveau lieu</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label>Nom</label>
+          <input type="text" name="location[name]" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label>Adresse</label>
+          <input type="text" name="location[address]" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label>Ville</label>
+          <input type="text" name="location[city]" class="form-control" required>
+        </div>
+        <div id="locationErrors" class="text-danger small mt-2"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Créer</button>
+      </div>
+    </form>
+  </div>
+</div>

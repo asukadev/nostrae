@@ -8,7 +8,7 @@ import './bootstrap.js';
 import './styles/app.scss';
 import 'aos/dist/aos.css';
 
-import { Tooltip } from 'bootstrap';
+import { Tooltip, Modal } from 'bootstrap';
 import Chart from 'chart.js/auto';
 import 'chartjs-adapter-date-fns';
 import AOS from 'aos';
@@ -226,3 +226,55 @@ function handleResize() {
 
 window.addEventListener('resize', handleResize);
 window.addEventListener('load', handleResize);
+
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('locationForm');
+    const select = document.querySelector('#event_location'); // adapte au nom exact du champ
+    const errorDiv = document.getElementById('locationErrors');
+
+    if (form) {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            errorDiv.innerHTML = '';
+            const formData = new FormData(form);
+
+            fetch('/admin/location/new', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) throw response;
+                return response.json();
+            })
+            .then(data => {
+                const option = new Option(data.label, data.id, true, true);
+                select.append(option);
+
+                const modalElement = document.getElementById('locationModal');
+                const modalInstance = Modal.getInstance(modalElement);
+                modalInstance.hide();
+
+                form.reset();
+            })
+            .catch(async error => {
+                let message = 'Une erreur est survenue.';
+
+                if (error instanceof Response) {
+                    try {
+                        const res = await error.json();
+                        if (res.errors) {
+                            message = res.errors.join('<br>');
+                        }
+                    } catch (e) {
+                        message = 'Réponse invalide du serveur.';
+                    }
+                } else {
+                    console.error(error); // erreur JS ou réseau
+                }
+
+                errorDiv.innerHTML = message;
+            });
+
+        });
+    }
+});

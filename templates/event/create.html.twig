@@ -10,12 +10,41 @@
         <div class="card card border-0 bg-white p-4 p-lg-5 rounded-4 shadow-sm mb-5">
             {{ form_row(eventForm.description, {'attr': {'class': 'border-0 bg-light'}}) }}
             {{ form_row(eventForm.startAt, {'attr': {'class': 'border-0 bg-light'}}) }}
-            {{ form_row(eventForm.location, {'attr': {'class': 'border-0 bg-light'}}) }}
+            <div class="mb-3">
+                {{ form_row(eventForm.location) }}
+                <button type="button" class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#locationModal">
+                    Ajouter un nouveau lieu
+                </button>
+            </div>
             {{ form_row(eventForm.imageFile, {'attr': {'class': 'border-0 bg-light'}}) }}
             {{ form_row(eventForm.capacity, {'attr': {'class': 'border-0 bg-light'}}) }}
             {{ form_row(eventForm.type, {'attr': {'class': 'border-0 bg-light'}}) }}
         </div>
         <button class="btn btn-primary">Créer</button>
     {{ form_end(eventForm) }}
+
+    {# Modale Bootstrap avec formulaire Symfony #}
+    <div class="modal fade" id="locationModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {{ form_start(locationForm, {'attr': {'id': 'locationForm'}}) }}
+                    <div class="modal-header">
+                        <h5 class="modal-title">Nouveau lieu</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ form_row(locationForm.name) }}
+                        {{ form_row(locationForm.address) }}
+                        {{ form_row(locationForm.postalCode) }}
+                        {{ form_row(locationForm.city) }}
+                        <div id="locationErrors" class="text-danger small mt-2"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Créer</button>
+                    </div>
+                {{ form_end(locationForm) }}
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

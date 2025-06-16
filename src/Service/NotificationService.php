@@ -28,7 +28,7 @@ class NotificationService
     public function sendRegistration(User $user): void
     {
         $email = (new TemplatedEmail())
-            ->from(new Address('contact@tonsite.fr', 'Nostrae Events'))
+            ->from(new Address('admin@asukadev.com', 'Nostrae Events'))
             ->to($user->getEmail())
             ->subject('Bienvenue sur Nostrae !')
             ->htmlTemplate('emails/registration.html.twig')
@@ -47,7 +47,7 @@ class NotificationService
 
         // Email pour l'utilisateur
         $userEmail = (new TemplatedEmail())
-            ->from('contact@tonsite.fr')
+            ->from('admin@asukadev.com')
             ->to($user->getEmail())
             ->subject('Réservation confirmée')
             ->htmlTemplate('emails/reservation_user.html.twig')
@@ -58,7 +58,7 @@ class NotificationService
         // Email pour l’organisateur si ce n’est pas lui qui a réservé
         if ($organizer && $organizer->getEmail() !== $user->getEmail()) {
             $orgEmail = (new TemplatedEmail())
-                ->from('contact@tonsite.fr')
+                ->from('admin@asukadev.com')
                 ->to($organizer->getEmail())
                 ->subject('Nouvelle réservation pour votre événement')
                 ->htmlTemplate('emails/reservation_organizer.html.twig')
@@ -77,7 +77,7 @@ class NotificationService
 
         // Email à l’utilisateur
         $userEmail = (new TemplatedEmail())
-            ->from('contact@tonsite.fr')
+            ->from('admin@asukadev.com')
             ->to($user->getEmail())
             ->subject('Réservation annulée')
             ->htmlTemplate('emails/cancellation_user.html.twig')
@@ -88,7 +88,7 @@ class NotificationService
         // Email à l’organisateur si ce n’est pas lui-même qui annule
         if ($organizer && $organizer->getEmail() !== $user->getEmail()) {
             $orgEmail = (new TemplatedEmail())
-                ->from('contact@tonsite.fr')
+                ->from('admin@asukadev.com')
                 ->to($organizer->getEmail())
                 ->subject('Une réservation a été annulée')
                 ->htmlTemplate('emails/cancellation_organizer.html.twig')
@@ -102,7 +102,7 @@ class NotificationService
     public function sendEventReminder(User $user, Event $event): void
     {
         $email = (new Email())
-            ->from('contact@tonsite.fr') // Correction : propriété non déclarée `$this->fromAddress` remplacée
+            ->from('admin@asukadev.com') // Correction : propriété non déclarée `$this->fromAddress` remplacée
             ->to($user->getEmail())
             ->subject('🎉 Rappel : votre événement commence bientôt !')
             ->html("

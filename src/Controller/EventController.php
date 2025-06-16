@@ -4,7 +4,9 @@ namespace App\Controller;
 
 // Importation des dépendances nécessaires
 use App\Entity\Event;
+use App\Entity\Location;
 use App\Form\EventType;
+use App\Form\LocationType;
 use App\Form\BookingType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,6 +19,8 @@ use App\Form\EventSearchType;
 use Knp\Component\Pager\PaginatorInterface;
 use App\Entity\Booking;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class EventController extends AbstractController
 {
@@ -81,8 +85,11 @@ class EventController extends AbstractController
             return $this->redirectToRoute('event_create');
         }
 
+        $locationForm = $this->createForm(LocationType::class);
+
         return $this->render('event/create.html.twig', [
             'eventForm' => $form->createView(),
+            'locationForm' => $locationForm,
         ]);
     }
 
@@ -253,5 +260,32 @@ class EventController extends AbstractController
             'event' => $event,
             'bookings' => $bookings,
         ]);
+    }
+    
+    #[Route('/admin/location/new', name: 'admin_location_ajax_create', methods: ['POST'])]
+    public function createViaAjax(Request $request, EntityManagerInterface $em, ValidatorInterface $validator): JsonResponse
+    {
+        $location = new Location();
+        $form = $this->createForm(LocationType::class, $location);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($location);
+            $em->flush();
+
+            return new JsonResponse([
+                'success' => true,
+                'id' => $location->getId(),
+                'label' => $location->getName() . ' – ' . $location->getCity(),
+            ]);
+        }
+
+        // Return errors if form is invalid
+        $errors = [];
+        foreach ($form->getErrors(true) as $error) {
+            $errors[] = $error->getMessage();
+        }
+
+        return new JsonResponse(['success' => false, 'errors' => $errors], 400);
     }
 }

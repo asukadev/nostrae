@@ -30,11 +30,11 @@
                         <td>{{ booking.event.location.name }}</td>
                         <td>{{ booking.quantity }}</td>
                         <td>
+                            <a target="_blank" href="{{ path("booking_print", {"id": booking.id}) }}" class="btn btn-sm btn-primary"> <i class="ph ph-printer"></i></a>
                             <form method="post"
                                   action="{{ path('booking_cancel', {'id': booking.id}) }}"
                                   onsubmit="return confirm('Annuler cette réservation ?');">
                                 <input type="hidden" name="_token" value="{{ csrf_token('cancel_booking_' ~ booking.id) }}">
-                                <button class="btn btn-sm btn-primary"> <i class="ph ph-printer"></i></button>
                                 <button class="btn btn-sm btn-danger"> Annuler</button>
                             </form>
                         </td>

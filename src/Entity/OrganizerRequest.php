@@ -15,17 +15,17 @@ class OrganizerRequest
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'organizerRequests')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id", nullable: false)]
     private ?User $user = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $motivation = null;
+    #[ORM\Column(type: Types::TEXT, nullable: false)]
+    private string $motivation;
 
-    #[ORM\Column(length: 30)]
-    private string $status = 'pending'; // pending / accepted / refused
+    #[ORM\Column(type: Types::STRING, length: 30, nullable: false)]
+    private string $status = 'pending';
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $requestedAt = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: false)]
+    private \DateTimeImmutable $requestedAt;
     
     public function __construct()
     {

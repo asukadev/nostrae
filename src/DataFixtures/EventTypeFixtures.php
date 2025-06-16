@@ -22,10 +22,6 @@ class EventTypeFixtures extends Fixture
             // Définit le nom du type (ex: Concert)
             $type->setName($name);
 
-            // Définit le champ "location" à la même valeur
-            // (à adapter si le champ a une autre sémantique dans l'entité)
-            $type->setLocation($name);
-
             // Préparation de l'insertion en base
             $manager->persist($type);
 

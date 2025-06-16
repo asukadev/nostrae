@@ -10,6 +10,7 @@ use App\Entity\Booking;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use App\Service\NotificationService;
+use Dompdf\Dompdf;
 
 final class BookingController extends AbstractController
 {
@@ -37,6 +38,25 @@ final class BookingController extends AbstractController
         return $this->render('booking/my_bookings.html.twig', [
             'bookings' => $bookings,
         ]);
+    }
+
+    #[Route('/book/print/{id}', name: "booking_print")]
+    public function print(Booking $booking, Request $request, EntityManagerInterface $em)
+    {
+        $html =  $this->renderView('components/_ticket.html.twig', [
+            "user" => $this->getUser(),
+            "booking" => $booking,
+            "event" => $booking->getEvent(),
+        ]);
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->render();
+         
+        return new Response (
+            $dompdf->stream('resume', ["Attachment" => false]),
+            Response::HTTP_OK,
+            ['Content-Type' => 'application/pdf']
+        );
     }
 
     // Annuler une réservation existante

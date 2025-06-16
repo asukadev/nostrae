@@ -24,6 +24,8 @@
     "webpack-notifier": "1.15.0"
   },
   "scripts": {
-    "dev-server": "webpack serve --open"
+    "dev-server": "webpack serve --open",
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production"
   }
 }
