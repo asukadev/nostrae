@@ -45,7 +45,7 @@ cd nom-du-repo
 composer install
 yarn install
 yarn build
-
+```
 ---
 
 ## Configuration de l’environnement
@@ -53,7 +53,7 @@ yarn build
 Modification du fichier .env pour connecter la base de données MySQL :
 ```bash
 DATABASE_URL="mysql://root:password@127.0.0.1:3306/nostrae?serverVersion=8.0"
-
+```
 ---
 
 ## Base de données
@@ -62,20 +62,25 @@ Création de la base + migrations :
 ```bash
 php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate
-
+```
 ---
 
 ## Chargement des données de tests
 
 ```bash
 php bin/console doctrine:fixtures:load
-
+```
 ---
 
 ## Chargement des données de tests
 
 ```bash
 php bin/console doctrine:fixtures:load
+```
+
+---
+
+## Démarrage du serveur
 
 symfony server:start
 ou
@@ -86,7 +91,10 @@ php -S localhost:8000 -t public
 ```bash
 # Voir les routes
 php bin/console debug:router
+
 # Lister les services
 php bin/console debug:container
+
 # Vider le cache
 php bin/console cache:clear
+```
